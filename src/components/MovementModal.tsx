@@ -154,4 +154,4 @@ const MovementModal: React.FC<MovementModalProps> = ({ isOpen, onClose, product 
   );
 };
 
-export default MovementModal;
+export default MovementModal; 
