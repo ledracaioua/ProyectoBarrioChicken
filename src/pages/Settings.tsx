@@ -4,12 +4,12 @@ import { Save, UserCircle, Bell, Shield, Database } from 'lucide-react';
 const Settings = () => {
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-bold text-gray-900">Configuración</h1>
+      <h1 className="text-3xl font-bold text-red-600 mb-6">Configuración</h1>
 
       <div className="bg-white shadow rounded-lg divide-y">
         <div className="p-6">
           <div className="flex items-center space-x-3">
-            <UserCircle className="w-6 h-6 text-blue-500" />
+            <UserCircle className="w-6 h-6 text-red-500" />
             <h2 className="text-lg font-medium text-gray-900">Perfil de Usuario</h2>
           </div>
           <div className="mt-6 grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-4">
@@ -19,7 +19,7 @@ const Settings = () => {
               </label>
               <input
                 type="text"
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500"
                 placeholder="Juan Pérez"
               />
             </div>
@@ -29,7 +29,7 @@ const Settings = () => {
               </label>
               <input
                 type="email"
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500"
                 placeholder="juan@example.com"
               />
             </div>
@@ -38,7 +38,7 @@ const Settings = () => {
 
         <div className="p-6">
           <div className="flex items-center space-x-3">
-            <Bell className="w-6 h-6 text-blue-500" />
+            <Bell className="w-6 h-6 text-red-500" />
             <h2 className="text-lg font-medium text-gray-900">Notificaciones</h2>
           </div>
           <div className="mt-6 space-y-4">
@@ -46,7 +46,7 @@ const Settings = () => {
               <div className="flex items-center h-5">
                 <input
                   type="checkbox"
-                  className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                  className="rounded border-gray-300 text-red-600 focus:ring-red-500"
                   defaultChecked
                 />
               </div>
@@ -63,7 +63,7 @@ const Settings = () => {
               <div className="flex items-center h-5">
                 <input
                   type="checkbox"
-                  className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                  className="rounded border-gray-300 text-red-600 focus:ring-red-500"
                   defaultChecked
                 />
               </div>
@@ -81,11 +81,11 @@ const Settings = () => {
 
         <div className="p-6">
           <div className="flex items-center space-x-3">
-            <Shield className="w-6 h-6 text-blue-500" />
+            <Shield className="w-6 h-6 text-red-500" />
             <h2 className="text-lg font-medium text-gray-900">Seguridad</h2>
           </div>
           <div className="mt-6">
-            <button className="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+            <button className="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
               Cambiar Contraseña
             </button>
           </div>
@@ -93,11 +93,11 @@ const Settings = () => {
 
         <div className="p-6">
           <div className="flex items-center space-x-3">
-            <Database className="w-6 h-6 text-blue-500" />
+            <Database className="w-6 h-6 text-red-500" />
             <h2 className="text-lg font-medium text-gray-900">Respaldo de Datos</h2>
           </div>
           <div className="mt-6">
-            <button className="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+            <button className="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
               Exportar Datos
             </button>
           </div>
@@ -105,7 +105,7 @@ const Settings = () => {
       </div>
 
       <div className="flex justify-end">
-        <button className="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+        <button className="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
           <Save className="w-4 h-4 mr-2" />
           Guardar Cambios
         </button>

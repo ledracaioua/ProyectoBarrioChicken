@@ -13,13 +13,13 @@ const Products = () => {
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-bold text-gray-900">Productos</h1>
+      <h1 className="text-3xl font-bold text-red-600 mb-6">Productos</h1>
         <button
           onClick={() => {
             setSelectedProduct(null);
             setIsProductModalOpen(true);
           }}
-          className="bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center"
+          className="bg-red-600 text-white px-4 py-2 rounded-lg flex items-center"
         >
           <Plus className="w-5 h-5 mr-2" />
           Nuevo Producto
@@ -40,7 +40,7 @@ const Products = () => {
                     setSelectedProduct(product);
                     setIsProductModalOpen(true);
                   }}
-                  className="text-blue-600 hover:text-blue-800 text-sm font-medium"
+                  className="text-red-600 hover:text-red-800 text-sm font-medium"
                 >
                   Editar
                 </button>

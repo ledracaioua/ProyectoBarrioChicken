@@ -70,22 +70,30 @@ const Inventory = () => {
       cell: (info) => (
         <div className="flex space-x-2">
           <button
+            aria-label='Editar'
             onClick={() => {
               setSelectedProduct(info.row.original);
               setIsProductModalOpen(true);
             }}
-            className="text-blue-600 hover:text-blue-800"
+            className="bg-transparent text-yellow-500 hover:text-white hover:bg-yellow-500 border border-yellow-500 hover:border-transparent focus:outline-none focus:ring-4 focus:ring-yellow-300 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2 dark:focus:ring-yellow-900"
           >
-            Editar
+            <svg className="w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+              <path fill-rule="evenodd" d="M11.32 6.176H5c-1.105 0-2 .949-2 2.118v10.588C3 20.052 3.895 21 5 21h11c1.105 0 2-.948 2-2.118v-7.75l-3.914 4.144A2.46 2.46 0 0 1 12.81 16l-2.681.568c-1.75.37-3.292-1.263-2.942-3.115l.536-2.839c.097-.512.335-.983.684-1.352l2.914-3.086Z" clip-rule="evenodd"/>
+              <path fill-rule="evenodd" d="M19.846 4.318a2.148 2.148 0 0 0-.437-.692 2.014 2.014 0 0 0-.654-.463 1.92 1.92 0 0 0-1.544 0 2.014 2.014 0 0 0-.654.463l-.546.578 2.852 3.02.546-.579a2.14 2.14 0 0 0 .437-.692 2.244 2.244 0 0 0 0-1.635ZM17.45 8.721 14.597 5.7 9.82 10.76a.54.54 0 0 0-.137.27l-.536 2.84c-.07.37.239.696.588.622l2.682-.567a.492.492 0 0 0 .255-.145l4.778-5.06Z" clip-rule="evenodd"/>
+            </svg>
           </button>
           <button
+            aria-label='Movimentar'
             onClick={() => {
               setSelectedProduct(info.row.original);
               setIsMovementModalOpen(true);
             }}
-            className="text-green-600 hover:text-green-800"
+            className="bg-transparent text-green-500 hover:bg-green-500 hover:text-white border border-green-500 hover:border-tranparent focus:outline-none focus:ring-4 focus:ring-green-300 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2 dark:focus:ring-green-900"
           >
-            Movimiento
+            <svg className="w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+  <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m16 10 3-3m0 0-3-3m3 3H5v3m3 4-3 3m0 0 3 3m-3-3h14v-3"/>
+</svg>
+
           </button>
         </div>
       ),
@@ -107,13 +115,13 @@ const Inventory = () => {
   return (
     <div className="space-y-4">
       <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-bold text-gray-900">Gestión de Inventario</h1>
+      <h1 className="text-3xl font-bold text-red-600 mb-6">Gestión de Inventario</h1>
         <button
           onClick={() => {
             setSelectedProduct(null);
             setIsProductModalOpen(true);
           }}
-          className="bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center"
+          className="bg-red-600 text-white px-4 py-2 rounded-lg flex items-center"
         >
           <Plus className="w-5 h-5 mr-2" />
           Nuevo Producto

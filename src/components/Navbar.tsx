@@ -22,7 +22,7 @@ const Navbar = () => {
       <div className="max-w-7xl mx-auto px-4">
         <div className="flex justify-between h-16">
           <div className="flex items-center">
-            <span className="text-xl font-bold text-gray-800">GBS Chik'n</span>
+            <span className="text-xl font-bold text-gray-800">Bairro Chik'n</span>
           </div>
           <div className="flex space-x-8">
             {navItems.map(({ to, icon: Icon, label }) => (

@@ -39,8 +39,8 @@ const Home = () => {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-bold text-gray-900">
-        Panel de Control - GBS Chik'n
+      <h1 className="text-3xl font-bold text-red-600 mb-6">
+        Panel de Control
       </h1>
       
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
