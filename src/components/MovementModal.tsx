@@ -9,12 +9,17 @@ interface MovementModalProps {
   product: Product;
 }
 
+const reasonOptions: { [key in 'IN' | 'OUT']: MovementReason[] } = {
+  IN: ['Compra', 'Devolucion', 'Ajuste'],
+  OUT: ['Venta', 'Perdida', 'Robo', 'Vencimiento', 'Dano', 'Ajuste'],
+};
+
 const MovementModal: React.FC<MovementModalProps> = ({ isOpen, onClose, product }) => {
   const { recordMovement } = useInventoryStore();
   const [formData, setFormData] = useState<Partial<InventoryMovement>>({
     type: 'IN',
     quantity: 1,
-    reason: 'Purchase',
+    reason: 'Compra',
     date: new Date().toISOString().split('T')[0],
     notes: '',
   });
@@ -67,7 +72,7 @@ const MovementModal: React.FC<MovementModalProps> = ({ isOpen, onClose, product 
             <select
               value={formData.type}
               onChange={(e) => setFormData({ ...formData, type: e.target.value as 'IN' | 'OUT' })}
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500"
             >
               <option value="IN">Entrada</option>
               <option value="OUT">Salida</option>
@@ -84,29 +89,27 @@ const MovementModal: React.FC<MovementModalProps> = ({ isOpen, onClose, product 
               min="1"
               value={formData.quantity}
               onChange={(e) => setFormData({ ...formData, quantity: Number(e.target.value) })}
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Motivo
-            </label>
-            <select
-              value={formData.reason}
-              onChange={(e) => setFormData({ ...formData, reason: e.target.value as MovementReason })}
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-            >
-              <option value="Purchase">Compra</option>
-              <option value="Sale">Venta</option>
-              <option value="Loss">Pérdida</option>
-              <option value="Theft">Robo</option>
-              <option value="Expiry">Vencimiento</option>
-              <option value="Damage">Daño</option>
-              <option value="Return">Devolución</option>
-              <option value="Adjustment">Ajuste</option>
-            </select>
-          </div>
+  <label className="block text-sm font-medium text-gray-700">
+    Motivo
+  </label>
+  <select
+    value={formData.reason}
+    onChange={(e) => setFormData({ ...formData, reason: e.target.value as MovementReason })}
+    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500"
+  >
+    {reasonOptions[formData.type || 'IN'].map((reason) => (
+      <option key={reason} value={reason}>
+        {reason}
+      </option>
+    ))}
+  </select>
+</div>
+
 
           <div>
             <label className="block text-sm font-medium text-gray-700">
@@ -117,7 +120,7 @@ const MovementModal: React.FC<MovementModalProps> = ({ isOpen, onClose, product 
               required
               value={formData.date}
               onChange={(e) => setFormData({ ...formData, date: e.target.value })}
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500"
             />
           </div>
 
@@ -128,7 +131,7 @@ const MovementModal: React.FC<MovementModalProps> = ({ isOpen, onClose, product 
             <textarea
               value={formData.notes}
               onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500"
               rows={3}
             />
           </div>
@@ -143,7 +146,7 @@ const MovementModal: React.FC<MovementModalProps> = ({ isOpen, onClose, product 
             </button>
             <button
               type="submit"
-              className="px-4 py-2 bg-blue-600 text-white rounded-md text-sm font-medium hover:bg-blue-700"
+              className="px-4 py-2 bg-red-600 text-white rounded-md text-sm font-medium hover:bg-red-700"
             >
               Registrar
             </button>

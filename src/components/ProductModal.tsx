@@ -67,7 +67,7 @@ const ProductModal: React.FC<ProductModalProps> = ({ isOpen, onClose, product })
                 required
                 value={formData.name}
                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500"
               />
             </div>
             <div>
@@ -79,7 +79,7 @@ const ProductModal: React.FC<ProductModalProps> = ({ isOpen, onClose, product })
                 required
                 value={formData.sku}
                 onChange={(e) => setFormData({ ...formData, sku: e.target.value })}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500"
               />
             </div>
             <div>
@@ -91,7 +91,7 @@ const ProductModal: React.FC<ProductModalProps> = ({ isOpen, onClose, product })
                 required
                 value={formData.category}
                 onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500"
               />
             </div>
             <div>
@@ -103,7 +103,7 @@ const ProductModal: React.FC<ProductModalProps> = ({ isOpen, onClose, product })
                 required
                 value={formData.supplier}
                 onChange={(e) => setFormData({ ...formData, supplier: e.target.value })}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500"
               />
             </div>
             <div>
@@ -116,7 +116,7 @@ const ProductModal: React.FC<ProductModalProps> = ({ isOpen, onClose, product })
                 min="0"
                 value={formData.quantity}
                 onChange={(e) => setFormData({ ...formData, quantity: Number(e.target.value) })}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500"
               />
             </div>
             <div>
@@ -130,7 +130,7 @@ const ProductModal: React.FC<ProductModalProps> = ({ isOpen, onClose, product })
                 step="0.01"
                 value={formData.price}
                 onChange={(e) => setFormData({ ...formData, price: Number(e.target.value) })}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500"
               />
             </div>
             <div>
@@ -142,7 +142,7 @@ const ProductModal: React.FC<ProductModalProps> = ({ isOpen, onClose, product })
                 required
                 value={formData.batch}
                 onChange={(e) => setFormData({ ...formData, batch: e.target.value })}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500"
               />
             </div>
             <div>
@@ -155,7 +155,7 @@ const ProductModal: React.FC<ProductModalProps> = ({ isOpen, onClose, product })
                 min="0"
                 value={formData.reorderPoint}
                 onChange={(e) => setFormData({ ...formData, reorderPoint: Number(e.target.value) })}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500"
               />
             </div>
             <div>
@@ -167,7 +167,7 @@ const ProductModal: React.FC<ProductModalProps> = ({ isOpen, onClose, product })
                 required
                 value={formData.entryDate}
                 onChange={(e) => setFormData({ ...formData, entryDate: e.target.value })}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500"
               />
             </div>
             <div>
@@ -179,7 +179,7 @@ const ProductModal: React.FC<ProductModalProps> = ({ isOpen, onClose, product })
                 required
                 value={formData.expiryDate}
                 onChange={(e) => setFormData({ ...formData, expiryDate: e.target.value })}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500"
               />
             </div>
           </div>
@@ -191,7 +191,7 @@ const ProductModal: React.FC<ProductModalProps> = ({ isOpen, onClose, product })
             <textarea
               value={formData.description}
               onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500"
               rows={3}
             />
           </div>
@@ -206,7 +206,7 @@ const ProductModal: React.FC<ProductModalProps> = ({ isOpen, onClose, product })
             </button>
             <button
               type="submit"
-              className="px-4 py-2 bg-blue-600 text-white rounded-md text-sm font-medium hover:bg-blue-700"
+              className="px-4 py-2 bg-red-600 text-white rounded-md text-sm font-medium hover:bg-red-700"
             >
               {product ? 'Actualizar' : 'Crear'}
             </button>

@@ -24,11 +24,11 @@ export interface InventoryMovement {
 }
 
 export type MovementReason = 
-  | 'Purchase'
-  | 'Sale'
-  | 'Loss'
-  | 'Theft'
-  | 'Expiry'
-  | 'Damage'
-  | 'Return'
-  | 'Adjustment';
+  | 'Compra'
+  | 'Venta'
+  | 'Perdida'
+  | 'Robo'
+  | 'Vencimiento'
+  | 'Dano'
+  | 'Devolucion'
+  | 'Ajuste';
