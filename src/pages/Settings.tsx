@@ -1,12 +1,55 @@
-import React from 'react';
-import { Save, UserCircle, Bell, Shield, Database } from 'lucide-react';
+import React, { useRef } from 'react';
+import { Save, UserCircle, Bell, Shield, Database, Upload, Download } from 'lucide-react';
+import { useInventoryStore } from '../store/inventory.ts'; // ajuste o path se necessário
 
 const Settings = () => {
+  const { products, addProduct } = useInventoryStore();
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  // Exporta os produtos para um arquivo JSON
+  const handleExport = () => {
+    const dataStr = JSON.stringify(products, null, 2);
+    const blob = new Blob([dataStr], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'inventario.json';
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
+  // Importa produtos a partir de um arquivo JSON
+  const handleImport = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      try {
+        const importedProducts = JSON.parse(event.target?.result as string);
+        if (Array.isArray(importedProducts)) {
+          importedProducts.forEach((product) => {
+            addProduct(product); // ou substituir todos, se desejar
+          });
+          alert('Productos importados correctamente.');
+        } else {
+          alert('El archivo no contiene una lista válida de productos.');
+        }
+      } catch (err) {
+        alert('Error al leer el archivo.');
+      }
+    };
+    reader.readAsText(file);
+  };
+
   return (
     <div className="space-y-6">
       <h1 className="text-3xl font-bold text-red-600 mb-6">Configuración</h1>
 
       <div className="bg-white shadow rounded-lg divide-y">
+
+        {/* PERFIL DE USUARIO */}
         <div className="p-6">
           <div className="flex items-center space-x-3">
             <UserCircle className="w-6 h-6 text-red-500" />
@@ -14,9 +57,7 @@ const Settings = () => {
           </div>
           <div className="mt-6 grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700">
-                Nombre
-              </label>
+              <label className="block text-sm font-medium text-gray-700">Nombre</label>
               <input
                 type="text"
                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500"
@@ -24,9 +65,7 @@ const Settings = () => {
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700">
-                Correo Electrónico
-              </label>
+              <label className="block text-sm font-medium text-gray-700">Correo Electrónico</label>
               <input
                 type="email"
                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500"
@@ -36,6 +75,7 @@ const Settings = () => {
           </div>
         </div>
 
+        {/* NOTIFICACIONES */}
         <div className="p-6">
           <div className="flex items-center space-x-3">
             <Bell className="w-6 h-6 text-red-500" />
@@ -51,9 +91,7 @@ const Settings = () => {
                 />
               </div>
               <div className="ml-3">
-                <label className="font-medium text-gray-700">
-                  Alertas de Stock Bajo
-                </label>
+                <label className="font-medium text-gray-700">Alertas de Stock Bajo</label>
                 <p className="text-sm text-gray-500">
                   Recibe notificaciones cuando los productos alcancen su punto de reorden
                 </p>
@@ -68,9 +106,7 @@ const Settings = () => {
                 />
               </div>
               <div className="ml-3">
-                <label className="font-medium text-gray-700">
-                  Alertas de Caducidad
-                </label>
+                <label className="font-medium text-gray-700">Alertas de Caducidad</label>
                 <p className="text-sm text-gray-500">
                   Recibe notificaciones sobre productos próximos a vencer
                 </p>
@@ -79,6 +115,7 @@ const Settings = () => {
           </div>
         </div>
 
+        {/* SEGURIDAD */}
         <div className="p-6">
           <div className="flex items-center space-x-3">
             <Shield className="w-6 h-6 text-red-500" />
@@ -91,19 +128,41 @@ const Settings = () => {
           </div>
         </div>
 
+        {/* RESPALDO DE DATOS */}
         <div className="p-6">
           <div className="flex items-center space-x-3">
             <Database className="w-6 h-6 text-red-500" />
             <h2 className="text-lg font-medium text-gray-900">Respaldo de Datos</h2>
           </div>
-          <div className="mt-6">
-            <button className="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+          <div className="mt-6 flex flex-col sm:flex-row gap-4">
+            <button
+              onClick={handleExport}
+              className="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+            >
+              <Download className="w-4 h-4 mr-2" />
               Exportar Datos
             </button>
+
+            <button
+              onClick={() => fileInputRef.current?.click()}
+              className="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+            >
+              <Upload className="w-4 h-4 mr-2" />
+              Importar Datos
+            </button>
+
+            <input
+              type="file"
+              accept="application/json"
+              className="hidden"
+              ref={fileInputRef}
+              onChange={handleImport}
+            />
           </div>
         </div>
       </div>
 
+      {/* BOTÃO FINAL DE SALVAR */}
       <div className="flex justify-end">
         <button className="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
           <Save className="w-4 h-4 mr-2" />

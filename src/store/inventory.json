@@ -1,0 +1,44 @@
+[
+    {
+      "name": "Bliz",
+      "sku": "123",
+      "category": "Bebidas",
+      "supplier": "BlizPap",
+      "quantity": 15,
+      "price": 1200,
+      "batch": "2",
+      "entryDate": "2025-04-15",
+      "expiryDate": "2025-05-01",
+      "reorderPoint": 10,
+      "description": "",
+      "id": "22c67a05-606d-41f6-9e8f-c243aa1df4dc"
+    },
+    {
+      "name": "Pap",
+      "sku": "1283",
+      "category": "Bebidas",
+      "supplier": "BlizPap",
+      "quantity": 15,
+      "price": 1200,
+      "batch": "2",
+      "entryDate": "2025-04-15",
+      "expiryDate": "2025-05-01",
+      "reorderPoint": 10,
+      "description": "",
+      "id": "9da3531a-02ab-434e-afed-2c2ae56661f9"
+    },
+    {
+      "name": "Pepsi",
+      "sku": "1283",
+      "category": "Bebidas",
+      "supplier": "PepsiCo",
+      "quantity": 15,
+      "price": 1500,
+      "batch": "2",
+      "entryDate": "2025-04-15",
+      "expiryDate": "2025-05-01",
+      "reorderPoint": 10,
+      "description": "",
+      "id": "daee3609-6b89-48c5-9b41-274f231d8fce"
+    }
+  ]
