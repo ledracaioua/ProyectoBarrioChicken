@@ -1,25 +1,33 @@
 import React, { useRef } from 'react';
 import { Save, UserCircle, Bell, Shield, Database, Upload, Download } from 'lucide-react';
 import { useInventoryStore } from '../store/inventory.ts'; // ajuste o path se necessário
+import { Product, InventoryMovement } from '../types.ts'; // ajuste o caminho conforme necessário
+
 
 const Settings = () => {
-  const { products, addProduct } = useInventoryStore();
+  const { products, movements, addProduct, recordMovement } = useInventoryStore();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  // Exporta os produtos para um arquivo JSON
+  // Exporta productos y movimientos
   const handleExport = () => {
-    const dataStr = JSON.stringify(products, null, 2);
+    const dataToExport = {
+      productos: products,
+      movimientos: movements,
+    };
+
+    const dataStr = JSON.stringify(dataToExport, null, 2);
     const blob = new Blob([dataStr], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
+    const dateTim = new Date().toISOString().replace(/[:.]/g, '-');
 
     const a = document.createElement('a');
     a.href = url;
-    a.download = 'inventario.json';
+    a.download = 'respaldo_inventario'+dateTim+'.json';
     a.click();
     URL.revokeObjectURL(url);
   };
 
-  // Importa produtos a partir de um arquivo JSON
+  // Importa productos y movimientos desde un archivo JSON
   const handleImport = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -27,15 +35,21 @@ const Settings = () => {
     const reader = new FileReader();
     reader.onload = (event) => {
       try {
-        const importedProducts = JSON.parse(event.target?.result as string);
-        if (Array.isArray(importedProducts)) {
-          importedProducts.forEach((product) => {
-            addProduct(product); // ou substituir todos, se desejar
+        const importedData = JSON.parse(event.target?.result as string);
+
+        if (Array.isArray(importedData.productos)) {
+          importedData.productos.forEach((product: Product) => {
+            addProduct(product);
           });
-          alert('Productos importados correctamente.');
-        } else {
-          alert('El archivo no contiene una lista válida de productos.');
         }
+
+        if (Array.isArray(importedData.movimientos)) {
+          importedData.movimientos.forEach((movement: InventoryMovement) => {
+            recordMovement(movement);
+          });
+        }
+
+        alert('Datos importados correctamente.');
       } catch (err) {
         alert('Error al leer el archivo.');
       }

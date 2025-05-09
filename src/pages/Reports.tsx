@@ -89,6 +89,7 @@ const Reports = () => {
                     </p>
                   </div>
                 </div>
+                <pre className="font-medium text-gray-900">{movement.notes}</pre>
               </div>
             );
           })}

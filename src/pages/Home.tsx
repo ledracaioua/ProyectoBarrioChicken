@@ -23,7 +23,7 @@ const Home = () => {
       value: products.filter(p => {
         const expiryDate = new Date(p.expiryDate);
         const thirtyDaysFromNow = new Date();
-        thirtyDaysFromNow.setDate(thirtyDaysFromNow.getDate() + 30);
+        thirtyDaysFromNow.setDate(thirtyDaysFromNow.getDate() + 15);
         return expiryDate <= thirtyDaysFromNow;
       }).length,
       icon: Clock,

@@ -1,0 +1,72 @@
+[
+  {
+    "name": "Bliz",
+    "sku": "123",
+    "category": "Bebidas",
+    "supplier": "BlizPap",
+    "quantity": 23,
+    "price": 1200,
+    "batch": "2",
+    "entryDate": "2025-04-15",
+    "expiryDate": "2025-05-01",
+    "reorderPoint": 10,
+    "description": "",
+    "id": "22c67a05-606d-41f6-9e8f-c243aa1df4dc"
+  },
+  {
+    "name": "Pap",
+    "sku": "1283",
+    "category": "Bebidas",
+    "supplier": "BlizPap",
+    "quantity": 13,
+    "price": 1200,
+    "batch": "2",
+    "entryDate": "2025-04-15",
+    "expiryDate": "2025-05-01",
+    "reorderPoint": 10,
+    "description": "",
+    "id": "9da3531a-02ab-434e-afed-2c2ae56661f9"
+  },
+  {
+    "name": "Pepsi",
+    "sku": "1283",
+    "category": "Bebidas",
+    "supplier": "PepsiCo",
+    "quantity": 24,
+    "price": 1500,
+    "batch": "2",
+    "entryDate": "2025-04-15",
+    "expiryDate": "2025-05-01",
+    "reorderPoint": 10,
+    "description": "",
+    "id": "daee3609-6b89-48c5-9b41-274f231d8fce"
+  },
+  {
+    "name": "Pechuga de Pollo",
+    "sku": "566",
+    "category": "Pollo",
+    "supplier": "SuperPollo",
+    "quantity": 60,
+    "price": 3890,
+    "batch": "2",
+    "entryDate": "2025-04-22",
+    "expiryDate": "2025-05-08",
+    "reorderPoint": 50,
+    "description": "",
+    "id": "3c8ee91d-0fcd-43fb-8cdb-e71e6f0f709b"
+  },
+  {
+    "name": "Alinas de Pollo",
+    "sku": "566",
+    "category": "Pollo",
+    "supplier": "PolloExpress",
+    "quantity": 60,
+    "price": 4620,
+    "batch": "2",
+    "entryDate": "2025-04-22",
+    "expiryDate": "2025-06-07",
+    "reorderPoint": 50,
+    "description": "",
+    "id": "ae275bab-13fd-414d-9e40-9c5f5a5e090f"
+  }
+]
