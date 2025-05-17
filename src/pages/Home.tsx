@@ -1,13 +1,47 @@
-import React from 'react';
+// src/pages/Home.tsx
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 import { Package, TrendingUp, AlertTriangle, Clock } from 'lucide-react';
-import { useInventoryStore } from '../store/inventory';
+
+interface Product {
+  _id?: string;
+  name: string;
+  sku: string;
+  category: string;
+  supplier: string;
+  quantity: number;
+  price: number;
+  batch: string;
+  entryDate: string;
+  expiryDate: string;
+  reorderPoint: number;
+  description: string;
+}
 
 const Home = () => {
-  const { products } = useInventoryStore();
+  const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const response = await axios.get<Product[]>('http://localhost:5000/api/items');
+        setProducts(response.data);
+      } catch (err) {
+        setError('Erro ao carregar os produtos.');
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProducts();
+  }, []);
 
   const stats = [
     {
-      title: 'Total Productos',
+      title: 'Total Produtos',
       value: products.length,
       icon: Package,
       color: 'bg-blue-500',
@@ -37,12 +71,20 @@ const Home = () => {
     },
   ];
 
+  if (loading) {
+    return <div className="text-center mt-10">Carregando produtos...</div>;
+  }
+
+  if (error) {
+    return <div className="text-center mt-10 text-red-600">{error}</div>;
+  }
+
   return (
     <div className="space-y-6">
       <h1 className="text-3xl font-bold text-red-600 mb-6">
         Panel de Control
       </h1>
-      
+
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         {stats.map((stat) => (
           <div
@@ -63,7 +105,7 @@ const Home = () => {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div className="bg-white rounded-lg shadow p-6">
           <h2 className="text-lg font-semibold text-gray-900 mb-4">
-            Productos con Stock Bajo
+            Produtos com Stock Bajo
           </h2>
           <div className="space-y-4">
             {products
@@ -71,7 +113,7 @@ const Home = () => {
               .slice(0, 5)
               .map(product => (
                 <div
-                  key={product.id}
+                  key={product._id}
                   className="flex items-center justify-between border-b pb-2"
                 >
                   <div>
@@ -106,7 +148,7 @@ const Home = () => {
               .slice(0, 5)
               .map(product => (
                 <div
-                  key={product.id}
+                  key={product._id}
                   className="flex items-center justify-between border-b pb-2"
                 >
                   <div>

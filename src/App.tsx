@@ -4,6 +4,8 @@ import {
   Menu, Home as HomeIcon, Package, BoxIcon, BarChart3,
   Settings as SettingsIcon, BookOpen
 } from 'lucide-react';
+import { Toaster } from 'react-hot-toast';
+
 import Home from './pages/Home';
 import Products from './pages/Products';
 import Inventory from './pages/Inventory';
@@ -29,8 +31,8 @@ function App() {
 
   return (
     <Router>
+      <Toaster position="top-right" reverseOrder={false} />
       <div className="min-h-screen flex flex-col">
-        {/* Barra superior */}
         <header className="bg-red-600 text-white p-4 flex items-center justify-between shadow-lg">
           <div className="flex items-center space-x-4">
             <button onClick={toggleSidebar}>
@@ -46,7 +48,6 @@ function App() {
         </header>
 
         <div className="flex flex-1">
-          {/* Barra lateral izquierda */}
           <aside className={`transition-all duration-300 ${sidebarExpanded ? 'w-64' : 'w-20'} bg-red-300 text-red-900 p-4 hidden md:block`}>
             <nav className="space-y-2">
               {navItems.map(({ to, icon, label }) => (
@@ -62,7 +63,6 @@ function App() {
             </nav>
           </aside>
 
-          {/* Contenido principal */}
           <main className="flex-1 p-6 bg-gradient-to-br from-white to-red-50">
             <div className="h-full rounded-lg shadow-xl p-8 bg-white">
               <div className="bg-white p-6 rounded-lg">

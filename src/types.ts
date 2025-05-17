@@ -1,7 +1,7 @@
 export interface Product {
-  id: string;
-  sku: string;
+  _id?: string; // <-- Adicionado como opcional
   name: string;
+  sku: string;
   category: string;
   supplier: string;
   quantity: number;
@@ -10,11 +10,11 @@ export interface Product {
   entryDate: string;
   expiryDate: string;
   reorderPoint: number;
-  description?: string;
+  description: string;
 }
 
 export interface InventoryMovement {
-  id: string;
+  _id?: string;
   productId: string;
   type: 'IN' | 'OUT';
   quantity: number;

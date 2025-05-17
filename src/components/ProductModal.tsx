@@ -1,44 +1,70 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { X } from 'lucide-react';
 import { Product } from '../types';
-import { useInventoryStore } from '../store/inventory';
 
 interface ProductModalProps {
   isOpen: boolean;
   onClose: () => void;
   product?: Product;
+  onSave: (product: Omit<Product, '_id'> | Product) => void;
 }
 
-const ProductModal: React.FC<ProductModalProps> = ({ isOpen, onClose, product }) => {
-  const { addProduct, updateProduct } = useInventoryStore();
-  const [formData, setFormData] = useState<Partial<Product>>(
-    product || {
-      name: '',
-      sku: '',
-      category: '',
-      supplier: '',
-      quantity: 0,
-      price: 0,
-      batch: '',
-      entryDate: new Date().toISOString().split('T')[0],
-      expiryDate: '',
-      reorderPoint: 0,
-      description: '',
+const ProductModal: React.FC<ProductModalProps> = ({ isOpen, onClose, product, onSave }) => {
+  const [formData, setFormData] = useState<Partial<Product>>({
+    name: '',
+    sku: '',
+    category: '',
+    supplier: '',
+    quantity: 0,
+    price: 0,
+    batch: '',
+    entryDate: new Date().toISOString().split('T')[0],
+    expiryDate: '',
+    reorderPoint: 0,
+    description: '',
+  });
+
+  useEffect(() => {
+    if (product) {
+      setFormData({
+        ...product,
+        entryDate: product.entryDate?.slice(0, 10) || '',
+        expiryDate: product.expiryDate?.slice(0, 10) || '',
+      });
+    } else {
+      setFormData({
+        name: '',
+        sku: '',
+        category: '',
+        supplier: '',
+        quantity: 0,
+        price: 0,
+        batch: '',
+        entryDate: new Date().toISOString().split('T')[0],
+        expiryDate: '',
+        reorderPoint: 0,
+        description: '',
+      });
     }
-  );
+  }, [product]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const productData = {
-      ...formData,
-      id: product?.id || crypto.randomUUID(),
-    } as Product;
 
-    if (product) {
-      updateProduct(productData);
+    if (!formData.name || !formData.sku) return;
+
+    if (product?._id) {
+      // Edição: mantém _id
+      onSave({
+        ...formData,
+        _id: product._id,
+      } as Product);
     } else {
-      addProduct(productData);
+      // Criação: remove _id
+      const { _id, ...newProduct } = formData;
+      onSave(newProduct as Omit<Product, '_id'>);
     }
+
     onClose();
   };
 
@@ -58,136 +84,20 @@ const ProductModal: React.FC<ProductModalProps> = ({ isOpen, onClose, product })
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="grid grid-cols-2 gap-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700">
-                Nombre
-              </label>
-              <input
-                type="text"
-                required
-                value={formData.name}
-                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700">
-                SKU
-              </label>
-              <input
-                type="text"
-                required
-                value={formData.sku}
-                onChange={(e) => setFormData({ ...formData, sku: e.target.value })}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700">
-                Categoría
-              </label>
-              <input
-                type="text"
-                required
-                value={formData.category}
-                onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700">
-                Proveedor
-              </label>
-              <input
-                type="text"
-                required
-                value={formData.supplier}
-                onChange={(e) => setFormData({ ...formData, supplier: e.target.value })}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700">
-                Cantidad
-              </label>
-              <input
-                type="number"
-                required
-                min="0"
-                value={formData.quantity}
-                onChange={(e) => setFormData({ ...formData, quantity: Number(e.target.value) })}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700">
-                Precio
-              </label>
-              <input
-                type="number"
-                required
-                min="0"
-                step="0.01"
-                value={formData.price}
-                onChange={(e) => setFormData({ ...formData, price: Number(e.target.value) })}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700">
-                Lote
-              </label>
-              <input
-                type="text"
-                required
-                value={formData.batch}
-                onChange={(e) => setFormData({ ...formData, batch: e.target.value })}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700">
-                Punto de Reorden
-              </label>
-              <input
-                type="number"
-                required
-                min="0"
-                value={formData.reorderPoint}
-                onChange={(e) => setFormData({ ...formData, reorderPoint: Number(e.target.value) })}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700">
-                Fecha de Ingreso
-              </label>
-              <input
-                type="date"
-                required
-                value={formData.entryDate}
-                onChange={(e) => setFormData({ ...formData, entryDate: e.target.value })}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700">
-                Fecha de Caducidad
-              </label>
-              <input
-                type="date"
-                required
-                value={formData.expiryDate}
-                onChange={(e) => setFormData({ ...formData, expiryDate: e.target.value })}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500"
-              />
-            </div>
+            <InputField label="Nombre" type="text" required value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} />
+            <InputField label="SKU" type="text" required value={formData.sku} onChange={(e) => setFormData({ ...formData, sku: e.target.value })} />
+            <InputField label="Categoría" type="text" required value={formData.category} onChange={(e) => setFormData({ ...formData, category: e.target.value })} />
+            <InputField label="Proveedor" type="text" required value={formData.supplier} onChange={(e) => setFormData({ ...formData, supplier: e.target.value })} />
+            <InputField label="Cantidad" type="number" required min="0" value={formData.quantity} onChange={(e) => setFormData({ ...formData, quantity: Number(e.target.value) })} />
+            <InputField label="Precio" type="number" required min="0" step="0.01" value={formData.price} onChange={(e) => setFormData({ ...formData, price: Number(e.target.value) })} />
+            <InputField label="Lote" type="text" required value={formData.batch} onChange={(e) => setFormData({ ...formData, batch: e.target.value })} />
+            <InputField label="Punto de Reorden" type="number" required min="0" value={formData.reorderPoint} onChange={(e) => setFormData({ ...formData, reorderPoint: Number(e.target.value) })} />
+            <InputField label="Fecha de Ingreso" type="date" required value={formData.entryDate} onChange={(e) => setFormData({ ...formData, entryDate: e.target.value })} />
+            <InputField label="Fecha de Caducidad" type="date" required value={formData.expiryDate} onChange={(e) => setFormData({ ...formData, expiryDate: e.target.value })} />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Descripción
-            </label>
+            <label className="block text-sm font-medium text-gray-700">Descripción</label>
             <textarea
               value={formData.description}
               onChange={(e) => setFormData({ ...formData, description: e.target.value })}
@@ -216,5 +126,19 @@ const ProductModal: React.FC<ProductModalProps> = ({ isOpen, onClose, product })
     </div>
   );
 };
+
+interface InputFieldProps extends React.InputHTMLAttributes<HTMLInputElement> {
+  label: string;
+}
+
+const InputField: React.FC<InputFieldProps> = ({ label, ...props }) => (
+  <div>
+    <label className="block text-sm font-medium text-gray-700">{label}</label>
+    <input
+      {...props}
+      className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500"
+    />
+  </div>
+);
 
 export default ProductModal;

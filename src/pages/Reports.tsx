@@ -1,20 +1,40 @@
-import React from 'react';
-import { useInventoryStore } from '../store/inventory';
+import React, { useEffect, useState } from 'react';
 import { BarChart2, TrendingDown, TrendingUp } from 'lucide-react';
 import { format } from 'date-fns';
+import { getItems } from '../api/items';
+import { getMovements } from '../api/movements';
+import { Product, InventoryMovement } from '../types';
 
 const Reports = () => {
-  const { products, movements } = useInventoryStore();
+  const [products, setProducts] = useState<Product[]>([]);
+  const [movements, setMovements] = useState<InventoryMovement[]>([]);
 
-  const totalValue = products.reduce((sum, product) => 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const [productsRes, movementsRes] = await Promise.all([
+          getItems(),
+          getMovements(),
+        ]);
+        setProducts(productsRes.data);
+        setMovements(movementsRes.data);
+      } catch (error) {
+        console.error('Erro ao carregar dados:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const totalValue = products.reduce((sum, product) =>
     sum + (product.price * product.quantity), 0
   );
 
   const lowStockProducts = products.filter(p => p.quantity <= p.reorderPoint);
-  
-  const recentMovements = movements
-    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
-    .slice(0, 10);
+
+  const recentMovements = [...movements].sort(
+    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+  );
 
   return (
     <div className="space-y-6">
@@ -64,18 +84,25 @@ const Reports = () => {
             Movimientos Recientes
           </h2>
         </div>
-        <div className="divide-y">
+
+        {/* Scroll apenas na lista */}
+        <div className="divide-y max-h-[400px] overflow-y-auto">
           {recentMovements.map((movement) => {
-            const product = products.find(p => p.id === movement.productId);
+            const productId = typeof movement.productId === 'string'
+              ? movement.productId
+              : movement.productId?._id;
+
+            const product = products.find(p => p._id === productId);
+
             return (
-              <div key={movement.id} className="px-6 py-4">
+              <div key={movement._id} className="px-6 py-4">
                 <div className="flex items-center justify-between">
                   <div>
                     <p className="font-medium text-gray-900">
-                      {product?.name}
+                      {product?.name || 'Producto eliminado'}
                     </p>
                     <p className="text-sm text-gray-500">
-                      {movement.reason} - {movement.type === 'IN' ? 'Entrada' : 'Salida'}
+                      {movement.reason} – {movement.type === 'IN' ? 'Entrada' : 'Salida'}
                     </p>
                   </div>
                   <div className="text-right">
@@ -89,7 +116,9 @@ const Reports = () => {
                     </p>
                   </div>
                 </div>
-                <pre className="font-medium text-gray-900">{movement.notes}</pre>
+                {movement.notes && (
+                  <p className="mt-2 text-sm text-gray-700">{movement.notes}</p>
+                )}
               </div>
             );
           })}

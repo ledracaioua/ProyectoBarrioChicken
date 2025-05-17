@@ -1,19 +1,76 @@
-import React, { useState } from 'react';
-import { useInventoryStore } from '../store/inventory';
+import React, { useState, useEffect } from 'react';
 import { Plus } from 'lucide-react';
+import { Product } from '../types';
+import { getItems, addItem, updateItem, deleteItem } from '../api/items';
 import ProductModal from '../components/ProductModal';
 import MovementModal from '../components/MovementModal';
+import { Menu } from '@headlessui/react';
+import {
+  EllipsisVerticalIcon,
+  PencilIcon,
+  TrashIcon,
+  ArrowPathIcon,
+} from '@heroicons/react/24/solid';
+import { toast } from 'react-hot-toast';
 
 const Products = () => {
-  const { products } = useInventoryStore();
+  const [products, setProducts] = useState<Product[]>([]);
   const [isProductModalOpen, setIsProductModalOpen] = useState(false);
   const [isMovementModalOpen, setIsMovementModalOpen] = useState(false);
-  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+
+  useEffect(() => {
+    fetchProducts();
+  }, []);
+
+  const fetchProducts = async () => {
+    try {
+      const response = await getItems();
+      const data = response.data;
+      setProducts(Array.isArray(data) ? data : []);
+    } catch (error) {
+      console.error('Erro ao buscar produtos:', error);
+      setProducts([]);
+    }
+  };
+
+  const handleSaveProduct = async (productData: Partial<Product>) => {
+    try {
+      if (productData._id) {
+        await updateItem(productData._id, productData);
+      } else {
+        await addItem(productData);
+      }
+      await fetchProducts();
+    } catch (error) {
+      console.error('Erro ao salvar produto:', error);
+    }
+  };
+
+  const handleDelete = async (product: Product) => {
+    const confirmed = window.confirm(`Deseja excluir "${product.name}"?`);
+    if (!confirmed) return;
+
+    try {
+      await deleteItem(product._id!);
+      await fetchProducts();
+      toast.success('Produto excluído com sucesso!');
+    } catch (err) {
+      console.error('Erro ao excluir produto:', err);
+      toast.error('Erro ao excluir produto.');
+    }
+  };
+
+  const handleOpenMovement = (product: Product) => {
+    setSelectedProduct(product);
+    setIsMovementModalOpen(true);
+    toast.success('Movimentar produto');
+  };
 
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
-      <h1 className="text-3xl font-bold text-red-600 mb-6">Productos</h1>
+        <h1 className="text-3xl font-bold text-red-600 mb-6">Productos</h1>
         <button
           onClick={() => {
             setSelectedProduct(null);
@@ -28,69 +85,86 @@ const Products = () => {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {products.map((product) => (
-          <div key={product.id} className="bg-white rounded-lg shadow p-6">
+          <div key={product._id} className="bg-white rounded-lg shadow p-6">
             <div className="flex justify-between items-start">
               <div>
                 <h3 className="text-lg font-semibold text-gray-900">{product.name}</h3>
                 <p className="text-sm text-gray-500">SKU: {product.sku}</p>
               </div>
-              <div className="flex space-x-2">
-                <button
-                  onClick={() => {
-                    setSelectedProduct(product);
-                    setIsProductModalOpen(true);
-                  }}
-                  className="text-red-600 hover:text-red-800 text-sm font-medium"
-                >
-                  Editar
-                </button>
-                <button
-                  onClick={() => {
-                    setSelectedProduct(product);
-                    setIsMovementModalOpen(true);
-                  }}
-                  className="text-green-600 hover:text-green-800 text-sm font-medium"
-                >
-                  Movimiento
-                </button>
+
+              {/* MENU DE AÇÕES */}
+              <div className="relative">
+                <Menu as="div" className="relative inline-block text-left">
+                  <Menu.Button className="p-1 rounded hover:bg-gray-100">
+                    <EllipsisVerticalIcon className="h-5 w-5 text-gray-600" />
+                  </Menu.Button>
+                  <Menu.Items className="absolute right-0 z-10 mt-2 w-44 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                    <div className="p-1">
+                      <Menu.Item>
+                        {({ active }) => (
+                          <button
+                            onClick={() => {
+                              setSelectedProduct(product);
+                              setIsProductModalOpen(true);
+                            }}
+                            className={`${
+                              active ? 'bg-yellow-100' : ''
+                            } group flex w-full items-center rounded-md px-2 py-2 text-sm text-yellow-700`}
+                          >
+                            <PencilIcon className="h-5 w-5 mr-2 text-yellow-500" />
+                            Editar
+                          </button>
+                        )}
+                      </Menu.Item>
+
+                      <Menu.Item>
+                        {({ active }) => (
+                          <button
+                            onClick={() => handleOpenMovement(product)}
+                            className={`${
+                              active ? 'bg-green-100' : ''
+                            } group flex w-full items-center rounded-md px-2 py-2 text-sm text-green-700`}
+                          >
+                            <ArrowPathIcon className="h-5 w-5 mr-2 text-green-500" />
+                            Movimiento
+                          </button>
+                        )}
+                      </Menu.Item>
+
+                      <Menu.Item>
+                        {({ active }) => (
+                          <button
+                            onClick={() => handleDelete(product)}
+                            className={`${
+                              active ? 'bg-red-100' : ''
+                            } group flex w-full items-center rounded-md px-2 py-2 text-sm text-red-700`}
+                          >
+                            <TrashIcon className="h-5 w-5 mr-2 text-red-500" />
+                            Eliminar
+                          </button>
+                        )}
+                      </Menu.Item>
+                    </div>
+                  </Menu.Items>
+                </Menu>
               </div>
             </div>
-            
+
             <div className="mt-4 space-y-2">
-              <div className="flex justify-between">
-                <p className="text-sm text-gray-500">Categoría:</p>
-                <p className="text-sm font-medium">{product.category}</p>
-              </div>
-              <div className="flex justify-between">
-                <p className="text-sm text-gray-500">Proveedor:</p>
-                <p className="text-sm font-medium">{product.supplier}</p>
-              </div>
-              <div className="flex justify-between">
-                <p className="text-sm text-gray-500">Precio:</p>
-                <p className="text-sm font-medium">${product.price.toFixed(2)}</p>
-              </div>
-              <div className="flex justify-between">
-                <p className="text-sm text-gray-500">Stock:</p>
-                <p className={`text-sm font-medium ${
-                  product.quantity <= product.reorderPoint ? 'text-red-600' : ''
-                }`}>
-                  {product.quantity} unidades
-                </p>
-              </div>
-              <div className="flex justify-between">
-                <p className="text-sm text-gray-500">Punto de Reorden:</p>
-                <p className="text-sm font-medium">{product.reorderPoint} unidades</p>
-              </div>
-              <div className="flex justify-between">
-                <p className="text-sm text-gray-500">Lote:</p>
-                <p className="text-sm font-medium">{product.batch}</p>
-              </div>
-              <div className="flex justify-between">
-                <p className="text-sm text-gray-500">Caducidad:</p>
-                <p className="text-sm font-medium">
-                  {new Date(product.expiryDate).toLocaleDateString()}
-                </p>
-              </div>
+              <Detail label="Categoría" value={product.category} />
+              <Detail label="Proveedor" value={product.supplier} />
+              <Detail label="Precio" value={`$${product.price.toFixed(2)}`} />
+              <Detail
+                label="Stock"
+                value={`${product.quantity} unidades`}
+                highlight={product.quantity <= product.reorderPoint}
+              />
+              <Detail label="Punto de Reorden" value={`${product.reorderPoint} unidades`} />
+              <Detail label="Lote" value={product.batch} />
+              <Detail
+                label="Caducidad"
+                value={new Date(product.expiryDate).toLocaleDateString()}
+              />
             </div>
           </div>
         ))}
@@ -99,7 +173,8 @@ const Products = () => {
       <ProductModal
         isOpen={isProductModalOpen}
         onClose={() => setIsProductModalOpen(false)}
-        product={selectedProduct}
+        product={selectedProduct || undefined}
+        onSave={handleSaveProduct}
       />
 
       {selectedProduct && (
@@ -107,10 +182,26 @@ const Products = () => {
           isOpen={isMovementModalOpen}
           onClose={() => setIsMovementModalOpen(false)}
           product={selectedProduct}
+          onSaved={fetchProducts}
         />
       )}
     </div>
   );
 };
+
+const Detail = ({
+  label,
+  value,
+  highlight = false,
+}: {
+  label: string;
+  value: string;
+  highlight?: boolean;
+}) => (
+  <div className="flex justify-between">
+    <p className="text-sm text-gray-500">{label}:</p>
+    <p className={`text-sm font-medium ${highlight ? 'text-red-600' : ''}`}>{value}</p>
+  </div>
+);
 
 export default Products;
