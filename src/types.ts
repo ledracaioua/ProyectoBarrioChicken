@@ -1,11 +1,10 @@
 export interface Product {
-  _id?: string;
+  _id?: string; // <-- Adicionado como opcional
   name: string;
   sku: string;
   category: string;
   supplier: string;
   quantity: number;
-  unit: string;
   price: number;
   batch: string;
   entryDate: string;
