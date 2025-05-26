@@ -59,7 +59,7 @@ const Settings = () => {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-3xl font-bold text-red-600 mb-6">Configuración</h1>
+      <h1 className="text-2xl font-bold text-gray-800">Configuración</h1>
 
       <div className="bg-white shadow rounded-lg divide-y">
 

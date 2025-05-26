@@ -1,10 +1,11 @@
 export interface Product {
-  _id?: string; // <-- Adicionado como opcional
+  _id?: string;
   name: string;
   sku: string;
   category: string;
   supplier: string;
   quantity: number;
+  unit: string; // <-- Adicionado
   price: number;
   batch: string;
   entryDate: string;
@@ -32,3 +33,14 @@ export type MovementReason =
   | 'Dano'
   | 'Devolucion'
   | 'Ajuste';
+
+
+export interface Supplier {
+  _id?: string;
+  name: string;
+  rut: string;
+  insumo: string;
+  email?: string;
+  additionalInfo?: string;
+  categories?: string[];
+}

@@ -70,7 +70,7 @@ const Products = () => {
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
-        <h1 className="text-3xl font-bold text-red-600 mb-6">Productos</h1>
+        <h1 className="text-2xl font-bold text-gray-800">Productos</h1>
         <button
           onClick={() => {
             setSelectedProduct(null);

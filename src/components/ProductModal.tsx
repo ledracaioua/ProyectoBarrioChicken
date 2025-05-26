@@ -1,21 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import { X } from 'lucide-react';
 import { Product } from '../types';
+import { Autocomplete } from '@mui/material';
+import TextField from '@mui/material/TextField';
 
 interface ProductModalProps {
   isOpen: boolean;
   onClose: () => void;
   product?: Product;
   onSave: (product: Omit<Product, '_id'> | Product) => void;
+  availableUnits: string[]; // ['Kg', 'bolsas', ...]
 }
 
-const ProductModal: React.FC<ProductModalProps> = ({ isOpen, onClose, product, onSave }) => {
+const ProductModal: React.FC<ProductModalProps> = ({ isOpen, onClose, product, onSave, availableUnits }) => {
   const [formData, setFormData] = useState<Partial<Product>>({
     name: '',
     sku: '',
     category: '',
     supplier: '',
     quantity: 0,
+    unit: '',
     price: 0,
     batch: '',
     entryDate: new Date().toISOString().split('T')[0],
@@ -38,6 +42,7 @@ const ProductModal: React.FC<ProductModalProps> = ({ isOpen, onClose, product, o
         category: '',
         supplier: '',
         quantity: 0,
+        unit: '',
         price: 0,
         batch: '',
         entryDate: new Date().toISOString().split('T')[0],
@@ -50,17 +55,11 @@ const ProductModal: React.FC<ProductModalProps> = ({ isOpen, onClose, product, o
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-
-    if (!formData.name || !formData.sku) return;
+    if (!formData.name || !formData.sku || !formData.unit) return;
 
     if (product?._id) {
-      // Edição: mantém _id
-      onSave({
-        ...formData,
-        _id: product._id,
-      } as Product);
+      onSave({ ...formData, _id: product._id } as Product);
     } else {
-      // Criação: remove _id
       const { _id, ...newProduct } = formData;
       onSave(newProduct as Omit<Product, '_id'>);
     }
@@ -94,6 +93,24 @@ const ProductModal: React.FC<ProductModalProps> = ({ isOpen, onClose, product, o
             <InputField label="Punto de Reorden" type="number" required min="0" value={formData.reorderPoint} onChange={(e) => setFormData({ ...formData, reorderPoint: Number(e.target.value) })} />
             <InputField label="Fecha de Ingreso" type="date" required value={formData.entryDate} onChange={(e) => setFormData({ ...formData, entryDate: e.target.value })} />
             <InputField label="Fecha de Caducidad" type="date" required value={formData.expiryDate} onChange={(e) => setFormData({ ...formData, expiryDate: e.target.value })} />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700">Tipo de Cantidad</label>
+            <Autocomplete
+              freeSolo
+              options={availableUnits}
+              value={formData.unit || ''}
+              onInputChange={(_, newValue) => setFormData({ ...formData, unit: newValue })}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  placeholder="Ej: Kg, bolsas, caixas..."
+                  className="mt-1"
+                  required
+                />
+              )}
+            />
           </div>
 
           <div>
