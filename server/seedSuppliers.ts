@@ -1,7 +1,7 @@
 // server/seedSuppliers.ts
 import mongoose from 'mongoose';
 import * as dotenv from 'dotenv';
-import Supplier from './models/Supplier.js';
+import Supplier from './models/Supplier';
 
 dotenv.config();
 
