@@ -17,7 +17,6 @@ const Navbar = () => {
     { to: '/', icon: Home, label: 'Inicio' },
     { to: '/products', icon: Package, label: 'Productos' },
     { to: '/inventory', icon: ClipboardList, label: 'Gestión de Inventario' },
-    { to: '/suppliers', icon: ClipboardList, label: 'Proveedores' },
     { to: '/reports', icon: BarChart2, label: 'Reportes' },
     { to: '/settings', icon: Settings, label: 'Configuración' },
   ];

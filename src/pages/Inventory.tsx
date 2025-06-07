@@ -20,7 +20,7 @@ import { toast } from 'react-hot-toast';
 
 const columnHelper = createColumnHelper<Product>();
 
-const availableUnits = ['kg', 'unidades', 'bolsas', 'caixas', 'litros'];
+const availableUnits = ['Kg', 'unidades', 'bolsas', 'caixas', 'litros'];
 
 const Inventory = () => {
   const [products, setProducts] = useState<Product[]>([]);
@@ -96,7 +96,7 @@ const Inventory = () => {
           return (
             <div className="flex items-center">
               <span className={quantity <= reorderPoint ? 'text-red-600 font-medium' : ''}>
-                {quantity} {info.row.original.unit}
+                {quantity}
               </span>
               {quantity <= reorderPoint && (
                 <ArrowDown className="w-4 h-4 ml-1 text-red-600" />
@@ -108,7 +108,7 @@ const Inventory = () => {
     visibleColumns.reorderPoint &&
       columnHelper.accessor('reorderPoint', {
         header: 'Punto de Reorden',
-        cell: info => `${info.getValue()} ${info.row.original.unit}`,
+        cell: info => `${info.getValue()} unidades`,
       }),
     visibleColumns.status &&
       columnHelper.display({
@@ -315,7 +315,6 @@ const Inventory = () => {
         onClose={() => {
           setIsProductModalOpen(false);
           loadProducts();
-          toast.success('Producto registrado com sucesso');
         }}
         product={selectedProduct || undefined}
         onSave={handleSaveProduct}
