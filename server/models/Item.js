@@ -6,7 +6,6 @@ const itemSchema = new mongoose.Schema({
   category: { type: String },
   supplier: { type: String },
   quantity: { type: Number, required: true },
-  unit: { type: String },
   price: { type: Number },
   batch: { type: String },
   entryDate: { type: Date },

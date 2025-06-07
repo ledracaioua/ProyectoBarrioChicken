@@ -5,7 +5,7 @@ export interface Product {
   category: string;
   supplier: string;
   quantity: number;
-  unit: string; // <-- Adicionado
+  unit: string;
   price: number;
   batch: string;
   entryDate: string;
@@ -34,7 +34,6 @@ export type MovementReason =
   | 'Devolucion'
   | 'Ajuste';
 
-
 export interface Supplier {
   _id?: string;
   name: string;
@@ -43,4 +42,31 @@ export interface Supplier {
   email?: string;
   additionalInfo?: string;
   categories?: string[];
+}
+
+export interface OrderItem {
+  productId: string;
+  name: string;
+  quantity: number;
+  price: number;
+  subtotal: number;
+}
+
+export interface Order {
+  _id?: string;
+  orderNumber: string;
+  supplier: string;
+  status: 'pending' | 'processing' | 'delivered' | 'delayed' | 'cancelled';
+  items: OrderItem[];
+  total: number;
+  createdAt: string;
+  estimatedDelivery: string;
+  deliveryAddress: string;
+  paymentMethod: string;
+  notes?: string;
+  statusHistory: {
+    status: string;
+    timestamp: string;
+    comment?: string;
+  }[];
 }
