@@ -19,9 +19,16 @@ const ProductCard: React.FC<ProductCardProps> = ({
   onDelete,
   onMove,
 }) => {
-  const isLowStock = product.quantity <= product.reorderPoint;
-  const isExpiring =
-    new Date(product.expiryDate) <= new Date(Date.now() + 30 * 24 * 60 * 60 * 1000);
+  // Fallbacks para campos possivelmente ausentes
+  const quantity = product.quantity ?? 0;
+  const reorderPoint = product.reorderPoint ?? 0;
+
+  const isLowStock = quantity <= reorderPoint;
+
+  const expiryDateObj = product.expiryDate ? new Date(product.expiryDate) : null;
+  const isExpiring = expiryDateObj
+    ? expiryDateObj <= new Date(Date.now() + 30 * 24 * 60 * 60 * 1000)
+    : false;
 
   return (
     <div
@@ -31,8 +38,10 @@ const ProductCard: React.FC<ProductCardProps> = ({
     >
       <div className="flex justify-between items-start mb-4">
         <div>
-          <h3 className="text-xl font-semibold text-gray-800">{product.name}</h3>
-          <p className="text-sm text-gray-500">SKU: {product.sku}</p>
+          <h3 className="text-xl font-semibold text-gray-800">
+            {product.name ?? '—'}
+          </h3>
+          <p className="text-sm text-gray-500">SKU: {product.sku ?? '—'}</p>
         </div>
         <div className="flex gap-2">
           <button
@@ -60,54 +69,63 @@ const ProductCard: React.FC<ProductCardProps> = ({
       </div>
 
       <div className="grid grid-cols-2 gap-y-4 text-sm">
-        <div>
-          <p className="text-gray-500">Categoria:</p>
-          <p className="font-medium text-gray-800">{product.category}</p>
-        </div>
-        <div>
-          <p className="text-gray-500">Fornecedor:</p>
-          <p className="font-medium text-gray-800">{product.supplier}</p>
-        </div>
-        <div>
-          <p className="text-gray-500">Preço:</p>
-          <p className="font-medium text-gray-800">
-            ${product.price.toFixed(2)}
-          </p>
-        </div>
-        <div>
-          <p className="text-gray-500">Estoque:</p>
-          <p
-            className={`font-medium ${
-              isLowStock ? 'text-red-600' : 'text-gray-800'
-            }`}
-          >
-            {product.quantity} {product.unit}
-          </p>
-        </div>
-        <div>
-          <p className="text-gray-500">Ponto de Reorden:</p>
-          <p className="font-medium text-gray-800">
-            {product.reorderPoint} {product.unit}
-          </p>
-        </div>
-        <div>
-          <p className="text-gray-500">Lote:</p>
-          <p className="font-medium text-gray-800">{product.batch}</p>
-        </div>
-        <div className="col-span-2">
-          <p className="text-gray-500">Validade:</p>
-          <p
-            className={`font-medium ${
-              isExpiring ? 'text-yellow-600' : 'text-gray-800'
-            }`}
-          >
-            {new Date(product.expiryDate).toLocaleDateString()}
-            {isExpiring && ' (próximo a vencer!)'}
-          </p>
-        </div>
+        <Detail label="Categoria" value={product.category ?? '—'} />
+        <Detail label="Fornecedor" value={product.supplier ?? '—'} />
+        <Detail
+          label="Preço"
+          value={
+            product.price !== undefined && product.price !== null
+              ? `$${product.price.toFixed(2)}`
+              : '—'
+          }
+        />
+        <Detail
+          label="Estoque"
+          value={`${quantity} ${product.unit ?? ''}`}
+          highlight={isLowStock}
+        />
+        <Detail
+          label="Ponto de Reorden"
+          value={`${reorderPoint} ${product.unit ?? ''}`}
+        />
+        <Detail label="Lote" value={product.batch ?? '—'} />
+        <Detail
+          label="Validade"
+          value={
+            expiryDateObj ? expiryDateObj.toLocaleDateString() : '—'
+          }
+          full
+          warn={isExpiring}
+        />
       </div>
     </div>
   );
 };
+
+const Detail = ({
+  label,
+  value,
+  highlight = false,
+  full = false,
+  warn = false,
+}: {
+  label: string;
+  value: string;
+  highlight?: boolean;
+  full?: boolean;
+  warn?: boolean;
+}) => (
+  <div className={`${full ? 'col-span-2' : ''}`}>
+    <p className="text-gray-500">{label}:</p>
+    <p
+      className={`font-medium ${
+        highlight ? 'text-red-600' : warn ? 'text-yellow-600' : 'text-gray-800'
+      }`}
+    >
+      {value}
+      {warn && ' (próximo a vencer!)'}
+    </p>
+  </div>
+);
 
 export default ProductCard;

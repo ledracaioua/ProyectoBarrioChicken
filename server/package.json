@@ -6,7 +6,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js",
     "dev": "nodemon server.js",
-    "seed:suppliers": "ts-node seedSuppliers.ts"
+    "seed:suppliers": "ts-node seedSuppliers.ts",
+    "seed:items": "ts-node seedItems.ts"
   },
   "keywords": [],
   "author": "",

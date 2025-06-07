@@ -57,6 +57,27 @@ const Inventory = () => {
   };
 
   const handleSaveProduct = async (product: Product | Omit<Product, '_id'>) => {
+    // Validação: exige campos obrigatórios ao salvar/editar
+    const requiredFields = [
+      'sku',
+      'name',
+      'quantity',
+      'reorderPoint',
+      'price',
+      'category',
+      'supplier',
+      'expiryDate',
+    ];
+    const missingFields = requiredFields.filter((field) => {
+      const value = (product as any)[field];
+      return value === undefined || value === null || value === '';
+    });
+
+    if (missingFields.length > 0) {
+      toast.error(`Preencha todos os campos obrigatórios: ${missingFields.join(', ')}`);
+      return;
+    }
+
     try {
       if ('_id' in product && product._id) {
         await updateItem(product._id, product);
@@ -65,8 +86,10 @@ const Inventory = () => {
       }
       setIsProductModalOpen(false);
       loadProducts();
+      toast.success('Produto salvo com sucesso');
     } catch (err) {
       console.error('Erro ao salvar produto:', err);
+      toast.error('Erro ao salvar produto');
     }
   };
 
@@ -84,19 +107,25 @@ const Inventory = () => {
 
   const allColumns: ColumnDef<Product, any>[] = [
     visibleColumns.sku &&
-      columnHelper.accessor('sku', { header: 'SKU', cell: info => info.getValue() }),
+      columnHelper.accessor('sku', {
+        header: 'SKU',
+        cell: (info) => info.getValue() ?? '—',
+      }),
     visibleColumns.name &&
-      columnHelper.accessor('name', { header: 'Nombre', cell: info => info.getValue() }),
+      columnHelper.accessor('name', {
+        header: 'Nombre',
+        cell: (info) => info.getValue() ?? '—',
+      }),
     visibleColumns.quantity &&
       columnHelper.accessor('quantity', {
         header: 'Cantidad',
-        cell: info => {
-          const quantity = info.getValue();
-          const reorderPoint = info.row.original.reorderPoint;
+        cell: (info) => {
+          const quantity = info.getValue() ?? 0;
+          const reorderPoint = info.row.original.reorderPoint ?? 0;
           return (
             <div className="flex items-center">
               <span className={quantity <= reorderPoint ? 'text-red-600 font-medium' : ''}>
-                {quantity}
+                {quantity??0} {info.row.original.unit ?? 'unidades'}
               </span>
               {quantity <= reorderPoint && (
                 <ArrowDown className="w-4 h-4 ml-1 text-red-600" />
@@ -108,7 +137,7 @@ const Inventory = () => {
     visibleColumns.reorderPoint &&
       columnHelper.accessor('reorderPoint', {
         header: 'Punto de Reorden',
-        cell: info => `${info.getValue()} unidades`,
+        cell: (info) => `${info.getValue() ?? 0} ${info.row.original.unit ?? 'unidades'}`,
       }),
     visibleColumns.status &&
       columnHelper.display({
@@ -116,10 +145,13 @@ const Inventory = () => {
         header: 'Estado',
         cell: (info) => {
           const product = info.row.original;
+          const quantity = product.quantity ?? 0;
+          const reorderPoint = product.reorderPoint ?? 0;
+
           const status =
-            product.quantity < product.reorderPoint
+            quantity < reorderPoint
               ? 'Bajo stock'
-              : product.quantity === product.reorderPoint
+              : quantity === reorderPoint
               ? 'Reordenar'
               : 'En stock';
 
@@ -131,7 +163,9 @@ const Inventory = () => {
               : 'bg-green-100 text-green-800';
 
           return (
-            <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${color}`}>
+            <span
+              className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${color}`}
+            >
               {status}
             </span>
           );
@@ -140,16 +174,28 @@ const Inventory = () => {
     visibleColumns.price &&
       columnHelper.accessor('price', {
         header: 'Precio',
-        cell: info => `$${info.getValue().toFixed(2)}`,
+        cell: (info) => {
+          const value = info.getValue();
+          return value !== undefined && value !== null ? `$${value.toFixed(2)}` : '—';
+        },
       }),
     visibleColumns.category &&
-      columnHelper.accessor('category', { header: 'Categoría', cell: info => info.getValue() }),
+      columnHelper.accessor('category', {
+        header: 'Categoría',
+        cell: (info) => info.getValue() ?? '—',
+      }),
     visibleColumns.supplier &&
-      columnHelper.accessor('supplier', { header: 'Proveedor', cell: info => info.getValue() }),
+      columnHelper.accessor('supplier', {
+        header: 'Proveedor',
+        cell: (info) => info.getValue() ?? '—',
+      }),
     visibleColumns.expiryDate &&
       columnHelper.accessor('expiryDate', {
         header: 'Fecha de Caducidad',
-        cell: info => format(new Date(info.getValue()), 'dd/MM/yyyy'),
+        cell: (info) => {
+          const value = info.getValue();
+          return value ? format(new Date(value), 'dd/MM/yyyy') : '—';
+        },
       }),
     visibleColumns.actions &&
       columnHelper.display({

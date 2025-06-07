@@ -6,6 +6,7 @@ import {
   BarChart2,
   Settings,
   ClipboardList,
+  ShoppingCart,
   Menu,
   X
 } from 'lucide-react';
@@ -17,6 +18,8 @@ const Navbar = () => {
     { to: '/', icon: Home, label: 'Inicio' },
     { to: '/products', icon: Package, label: 'Productos' },
     { to: '/inventory', icon: ClipboardList, label: 'Gestión de Inventario' },
+    { to: '/suppliers', icon: ClipboardList, label: 'Proveedores' },
+    { to: '/orders', icon: ShoppingCart, label: 'Pedidos' },
     { to: '/reports', icon: BarChart2, label: 'Reportes' },
     { to: '/settings', icon: Settings, label: 'Configuración' },
   ];
