@@ -8,10 +8,10 @@ const Settings = () => {
   const { products, movements, addProduct, recordMovement } = useInventoryStore();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  // Exporta productos y movimientos
+  // Exporta insumos y movimientos
   const handleExport = () => {
     const dataToExport = {
-      productos: products,
+      insumos: products,
       movimientos: movements,
     };
 
@@ -27,7 +27,7 @@ const Settings = () => {
     URL.revokeObjectURL(url);
   };
 
-  // Importa productos y movimientos desde un archivo JSON
+  // Importa insumos y movimientos desde un archivo JSON
   const handleImport = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -37,8 +37,8 @@ const Settings = () => {
       try {
         const importedData = JSON.parse(event.target?.result as string);
 
-        if (Array.isArray(importedData.productos)) {
-          importedData.productos.forEach((product: Product) => {
+        if (Array.isArray(importedData.insumos)) {
+          importedData.insumos.forEach((product: Product) => {
             addProduct(product);
           });
         }
@@ -107,7 +107,7 @@ const Settings = () => {
               <div className="ml-3">
                 <label className="font-medium text-gray-700">Alertas de Stock Bajo</label>
                 <p className="text-sm text-gray-500">
-                  Recibe notificaciones cuando los productos alcancen su punto de reorden
+                  Recibe notificaciones cuando los insumos alcancen su punto de reorden
                 </p>
               </div>
             </div>
@@ -122,7 +122,7 @@ const Settings = () => {
               <div className="ml-3">
                 <label className="font-medium text-gray-700">Alertas de Caducidad</label>
                 <p className="text-sm text-gray-500">
-                  Recibe notificaciones sobre productos próximos a vencer
+                  Recibe notificaciones sobre insumos próximos a vencer
                 </p>
               </div>
             </div>

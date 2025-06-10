@@ -70,7 +70,7 @@ const Reports = () => {
             <AlertTriangle className="w-6 h-6" />
           </div>
           <div>
-            <p className="text-sm text-gray-500">Productos con Stock Bajo</p>
+            <p className="text-sm text-gray-500">Insumos con Stock Bajo</p>
             <p className="text-xl font-semibold">{lowStockCount}</p>
           </div>
         </div>
@@ -80,7 +80,7 @@ const Reports = () => {
             <Box className="w-6 h-6" />
           </div>
           <div>
-            <p className="text-sm text-gray-500">Total de Productos</p>
+            <p className="text-sm text-gray-500">Total de Insumos</p>
             <p className="text-xl font-semibold">{totalProducts}</p>
           </div>
         </div>
@@ -131,7 +131,7 @@ const Reports = () => {
                 Fecha
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Producto
+                Insumo
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Tipo
@@ -162,7 +162,7 @@ const Reports = () => {
                     {new Date(movement.date).toLocaleDateString()}
                   </td>
                   <td className="px-6 py-4 text-sm text-gray-900 whitespace-nowrap">
-                    {product?.name || 'Producto eliminado'}
+                    {product?.name || 'Insumo eliminado'}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="flex items-center">
@@ -186,18 +186,16 @@ const Reports = () => {
                     {movement.reason && (
                       <span
                         className={`px-2 py-1 rounded-full text-xs ${
-                          movement.reason === 'uso'
+                          movement.reason === 'Compra' ||
+                          movement.reason === 'Devolución' ||
+                          movement.reason === 'Ajuste'
                             ? 'bg-blue-100 text-blue-800'
-                            : movement.reason === 'vencimiento'
+                            : movement.reason === 'Vencimiento'
                             ? 'bg-yellow-100 text-yellow-800'
                             : 'bg-red-100 text-red-800'
                         }`}
                       >
-                        {movement.reason === 'uso'
-                          ? 'Uso Regular'
-                          : movement.reason === 'vencimiento'
-                          ? 'Vencimiento'
-                          : 'Robo'}
+                        {movement.reason}
                       </span>
                     )}
                   </td>

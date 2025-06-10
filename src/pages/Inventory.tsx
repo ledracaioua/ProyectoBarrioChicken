@@ -31,10 +31,10 @@ const Inventory = () => {
   const [showColumnSelector, setShowColumnSelector] = useState(false);
 
   const [visibleColumns, setVisibleColumns] = useState<Record<string, boolean>>({
-    sku: true,
+    sku: false,
     name: true,
     quantity: true,
-    reorderPoint: true,
+    reorderPoint: false,
     price: true,
     category: true,
     supplier: true,
@@ -52,7 +52,7 @@ const Inventory = () => {
       const res = await getItems();
       setProducts(res.data);
     } catch (error) {
-      console.error('Erro ao carregar produtos:', error);
+      console.error('Erro ao carregar insumos:', error);
     }
   };
 
@@ -86,22 +86,22 @@ const Inventory = () => {
       }
       setIsProductModalOpen(false);
       loadProducts();
-      toast.success('Produto salvo com sucesso');
+      toast.success('Insumo salvo com sucesso');
     } catch (err) {
-      console.error('Erro ao salvar produto:', err);
-      toast.error('Erro ao salvar produto');
+      console.error('Erro ao salvar insumo:', err);
+      toast.error('Erro ao salvar insumo');
     }
   };
 
   const handleDeleteProduct = async (productId: string) => {
-    if (!window.confirm('Tem certeza que deseja excluir este produto?')) return;
+    if (!window.confirm('Tem certeza que deseja excluir este insumo?')) return;
 
     try {
       await deleteItem(productId);
       loadProducts();
-      toast.success('Produto excluído com sucesso');
+      toast.success('Insumo excluído com sucesso');
     } catch (error) {
-      console.error('Erro ao deletar produto:', error);
+      console.error('Erro ao deletar insumo:', error);
     }
   };
 
@@ -257,7 +257,7 @@ const Inventory = () => {
           className="bg-red-600 text-white px-4 py-2 rounded-lg flex items-center"
         >
           <Plus className="w-5 h-5 mr-2" />
-          Nuevo Producto
+          Nuevo Insumo
         </button>
       </div>
 
@@ -268,7 +268,7 @@ const Inventory = () => {
             type="text"
             value={globalFilter}
             onChange={(e) => setGlobalFilter(e.target.value)}
-            placeholder="Buscar productos..."
+            placeholder="Buscar insumos..."
             className="pl-10 pr-4 py-2 w-full border rounded-lg"
           />
         </div>

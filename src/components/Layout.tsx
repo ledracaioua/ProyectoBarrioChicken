@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { NavLink, Outlet } from 'react-router-dom';
 import {
-  Menu, LayoutDashboard, BookOpen, Package, PackageCheck,
+  Menu, LayoutDashboard, BookOpen, PackageOpen , PackageCheck,
   BarChart3, Settings, Store, ShoppingCart
 } from 'lucide-react';
 
 const navItems = [
   { to: '/', icon: LayoutDashboard, label: 'Dashboard' },
   { to: '/history', icon: BookOpen, label: 'Historia' },
-  { to: '/products', icon: Package, label: 'Productos' },
+  { to: '/products', icon: PackageOpen, label: 'Insumos' },
   { to: '/inventory', icon: PackageCheck, label: 'Inventario' },
   { to: '/suppliers', icon: Store, label: 'Proveedores' },
   { to: '/orders', icon: ShoppingCart, label: 'Pedidos' },

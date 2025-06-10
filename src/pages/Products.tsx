@@ -26,7 +26,7 @@ const Products = () => {
       const data = response.data;
       setProducts(Array.isArray(data) ? data : []);
     } catch (error) {
-      console.error('Erro ao buscar produtos:', error);
+      console.error('Erro ao buscar insumos:', error);
       setProducts([]);
     }
   };
@@ -40,7 +40,7 @@ const Products = () => {
       }
       await fetchProducts();
     } catch (error) {
-      console.error('Erro ao salvar produto:', error);
+      console.error('Erro ao salvar insumo:', error);
     }
   };
 
@@ -51,23 +51,23 @@ const Products = () => {
     try {
       await deleteItem(product._id!);
       await fetchProducts();
-      toast.success('Produto excluído com sucesso!');
+      toast.success('Insumo excluído com sucesso!');
     } catch (err) {
-      console.error('Erro ao excluir produto:', err);
-      toast.error('Erro ao excluir produto.');
+      console.error('Erro ao excluir insumo:', err);
+      toast.error('Erro ao excluir insumo.');
     }
   };
 
   const handleOpenMovement = (product: Product) => {
     setSelectedProduct(product);
     setIsMovementModalOpen(true);
-    toast.success('Movimentar produto');
+    toast.success('Movimentar insumo');
   };
 
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-bold text-gray-800">Produtos</h1>
+        <h1 className="text-2xl font-bold text-gray-800">Insumos</h1>
         <button
           onClick={() => {
             setSelectedProduct(null);
@@ -76,7 +76,7 @@ const Products = () => {
           className="bg-red-600 text-white px-4 py-2 rounded-lg flex items-center"
         >
           <Plus className="w-5 h-5 mr-2" />
-          Novo Produto
+          Novo Insumo
         </button>
       </div>
 
@@ -99,7 +99,7 @@ const Products = () => {
               isOpen={isProductModalOpen}
               onClose={() => {
                 setIsProductModalOpen(false);
-                toast.success('Producto registrado com sucesso');
+                toast.success('Insumo registrado com sucesso');
               }}
               product={selectedProduct || undefined}
               onSave={handleSaveProduct}

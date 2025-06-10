@@ -2,10 +2,11 @@ import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import {
   Home,
-  Package,
-  BarChart2,
+  PackageOpen ,
+  PackageCheck ,
   Settings,
   ClipboardList,
+  BarChart2,
   ShoppingCart,
   Menu,
   X
@@ -16,8 +17,8 @@ const Navbar = () => {
 
   const navItems = [
     { to: '/', icon: Home, label: 'Inicio' },
-    { to: '/products', icon: Package, label: 'Productos' },
-    { to: '/inventory', icon: ClipboardList, label: 'Gestión de Inventario' },
+    { to: '/products', icon: PackageOpen, label: 'Productos' },
+    { to: '/inventory', icon: PackageCheck, label: 'Gestión de Inventario' },
     { to: '/suppliers', icon: ClipboardList, label: 'Proveedores' },
     { to: '/orders', icon: ShoppingCart, label: 'Pedidos' },
     { to: '/reports', icon: BarChart2, label: 'Reportes' },

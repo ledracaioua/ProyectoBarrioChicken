@@ -89,7 +89,7 @@
         <div className="bg-white rounded-2xl shadow-xl w-full max-w-3xl p-4 overflow-visible">
           <div className="flex justify-between items-center border-b pb-3 mb-4">
             <h2 className="text-xl font-semibold text-gray-800">
-              {product ? 'Editar Producto' : 'Nuevo Producto'}
+              {product ? 'Editar Insumo' : 'Nuevo Insumo'}
             </h2>
             <button onClick={onClose} className="text-gray-500 hover:text-gray-700">
               <X className="w-6 h-6" />
@@ -122,7 +122,7 @@
                 <div className="flex-1">
                   <InputField
                     label="Cantidad"
-                    type="number"
+                    type="decimal"
                     min="0"
                     required
                     value={formData.quantity}

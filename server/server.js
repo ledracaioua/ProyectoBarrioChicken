@@ -7,6 +7,7 @@ import itemRoutes from './routes/items.js';
 import movementRoutes from './routes/movements.js';
 import supplierRoutes from './routes/suppliers.js';
 import categoriesRouter from './routes/categories.js';
+import ordersRoutes   from './routes/orders.js';
 import connectDB from './config/db.js';
 
 dotenv.config();
@@ -23,6 +24,8 @@ app.use('/api/items', itemRoutes);
 app.use('/api/movements', movementRoutes);
 app.use('/api/suppliers', supplierRoutes);
 app.use('/api/categories', categoriesRouter);
+app.use('/api/orders',   ordersRoutes);
+
 
 
 // DB Connection

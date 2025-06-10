@@ -149,16 +149,16 @@ const OrderForm: React.FC<OrderFormProps> = ({ isOpen, onClose, onSave, lastOrde
             </div>
           </div>
 
-          {/* Agregar productos */}
+          {/* Agregar insumos */}
           <div className="border-t border-gray-200 pt-6">
-            <h3 className="text-lg font-medium text-gray-900 mb-4">Productos</h3>
+            <h3 className="text-lg font-medium text-gray-900 mb-4">Insumos</h3>
             
             <div className="flex gap-4 mb-4">
               <div className="flex-1">
-                <label className="block text-sm font-medium text-gray-700 mb-1">Nombre del producto</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Nombre del insumo</label>
                 <input
                   type="text"
-                  placeholder="Nombre del producto"
+                  placeholder="Nombre del insumo"
                   value={newItem.name}
                   onChange={(e) => setNewItem({ ...newItem, name: e.target.value })}
                   className="block w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500"
@@ -197,7 +197,7 @@ const OrderForm: React.FC<OrderFormProps> = ({ isOpen, onClose, onSave, lastOrde
               </div>
             </div>
 
-            {/* Lista de productos */}
+            {/* Lista de insumos */}
             <div className="bg-gray-50 rounded-lg p-4">
               {formData.items?.map((item, index) => (
                 <div key={index} className="flex items-center justify-between py-2">
@@ -217,7 +217,7 @@ const OrderForm: React.FC<OrderFormProps> = ({ isOpen, onClose, onSave, lastOrde
                 </div>
               ))}
               {formData.items?.length === 0 && (
-                <p className="text-gray-500 text-center py-4">No hay productos agregados</p>
+                <p className="text-gray-500 text-center py-4">No hay insumos agregados</p>
               )}
               {formData.items?.length > 0 && (
                 <div className="border-t border-gray-200 mt-4 pt-4 text-right">

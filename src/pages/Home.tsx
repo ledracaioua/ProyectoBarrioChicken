@@ -31,7 +31,7 @@ const Home = () => {
         const response = await axios.get<Product[]>('http://localhost:5000/api/items');
         setProducts(response.data);
       } catch (err) {
-        setError('Erro ao carregar os produtos.');
+        setError('Erro ao carregar os insumos.');
         console.error(err);
       } finally {
         setLoading(false);
@@ -57,7 +57,7 @@ const Home = () => {
     reorderPoint: p.reorderPoint,
   }));
 
-  if (loading) return <div className="text-center mt-10">Carregando produtos...</div>;
+  if (loading) return <div className="text-center mt-10">Cargando insumos...</div>;
   if (error) return <div className="text-center mt-10 text-red-600">{error}</div>;
 
   return (
@@ -67,10 +67,10 @@ const Home = () => {
       {/* Estatísticas */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {[
-          { title: 'Total Produtos', value: products.length, icon: Package, color: 'bg-blue-500' },
+          { title: 'Total Insumos', value: products.length, icon: Package, color: 'bg-blue-500' },
           { title: 'Stock Bajo', value: lowStock.length, icon: AlertTriangle, color: 'bg-red-500' },
           { title: 'Próximos a Vencer', value: expiringSoon.length, icon: Clock, color: 'bg-yellow-500' },
-          { title: 'Movimentos Hoje', value: 0, icon: TrendingUp, color: 'bg-green-500' },
+          { title: 'Movimientos Hoy', value: 0, icon: TrendingUp, color: 'bg-green-500' },
         ].map(stat => (
           <div key={stat.title} className="bg-white shadow rounded-xl p-5 flex items-center gap-4">
             <div className={`${stat.color} p-4 rounded-full`}>
@@ -95,7 +95,7 @@ const Home = () => {
               </h2>
               <button
                 className="text-sm text-red-700 hover:underline font-medium"
-                onClick={() => alert('Abrir lista completa de produtos com stock baixo')}
+                onClick={() => alert('Abrir lista completa de insumos com stock baixo')}
               >
                 Ver todos
               </button>
@@ -122,11 +122,11 @@ const Home = () => {
             <div className="flex items-center justify-between mb-3">
               <h2 className="flex items-center text-yellow-700 font-semibold text-lg">
                 <Clock className="w-5 h-5 mr-2" />
-                Produtos por Vencer
+                Insumos por Vencer
               </h2>
               <button
                 className="text-sm text-yellow-700 hover:underline font-medium"
-                onClick={() => alert('Abrir lista completa de produtos por vencer')}
+                onClick={() => alert('Abrir lista completa de insumos por vencer')}
               >
                 Ver todos
               </button>
