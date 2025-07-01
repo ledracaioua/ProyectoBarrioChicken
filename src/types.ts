@@ -52,11 +52,19 @@ export interface OrderItem {
   subtotal: number;
 }
 
+export interface OrderMessage {
+  id: string;
+  sender: 'customer' | 'supplier';
+  message: string;
+  timestamp: string;
+  isRead: boolean;
+}
+
 export interface Order {
   _id?: string;
   orderNumber: string;
   supplier: string;
-  status: 'pending' | 'processing' | 'delivered' | 'delayed' | 'cancelled';
+  status: 'pending' | 'processing' | 'on_the_way' | 'delivered' | 'delayed' | 'cancelled';
   items: OrderItem[];
   total: number;
   createdAt: string;
@@ -69,4 +77,5 @@ export interface Order {
     timestamp: string;
     comment?: string;
   }[];
+  messages?: OrderMessage[];
 }

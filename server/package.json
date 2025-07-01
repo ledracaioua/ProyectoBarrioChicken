@@ -2,12 +2,13 @@
   "name": "server",
   "version": "1.0.0",
   "main": "server.js",
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js",
     "dev": "nodemon server.js",
-    "seed:suppliers": "ts-node seedSuppliers.ts",
-    "seed:items": "ts-node seedItems.ts"
+    "seed:suppliers": "node seedSuppliers.js",
+    "seed:items": "node seedItems.js"
   },
   "keywords": [],
   "author": "",
@@ -17,8 +18,7 @@
     "cors": "^2.8.5",
     "dotenv": "^16.5.0",
     "express": "^5.1.0",
-    "mongoose": "^8.15.0",
-    "ts-node": "^10.9.2"
+    "mongoose": "^8.15.0"
   },
   "devDependencies": {
     "nodemon": "^3.1.10"
