@@ -3,7 +3,7 @@
 import axios from 'axios';
 import { Supplier } from '../types';
 
-const BASE_URL = 'http://localhost:5000/api/suppliers';
+const BASE_URL = 'https://proyectobarriochicken.onrender.com/api/suppliers';
 
 export const getSuppliers = () => axios.get(BASE_URL);
 
