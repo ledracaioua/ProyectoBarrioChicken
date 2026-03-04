@@ -1,7 +1,7 @@
 // src/api/items.ts
 import axios from 'axios';
 
-const API_URL = 'http://localhost:5000/api/items';
+const API_URL = 'https://proyectobarriochicken.onrender.com/api/items';
 
 export const getItems = () => axios.get(API_URL);
 export const addItem = (item: any) => axios.post(API_URL, item);
