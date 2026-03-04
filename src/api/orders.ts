@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { Order } from '../types';
 
-const BASE = 'http://localhost:5000/api/orders';
+const BASE = 'https://proyectobarriochicken.onrender.com/api/orders';
 
 export const getOrders   = ()                     => axios.get(BASE);
 export const addOrder    = (o: Omit<Order,'_id'>) => axios.post(BASE, o);
